@@ -338,7 +338,7 @@ require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
  * @link       https://github.com/TGMPA/TGM-Plugin-Activation
  */
 
-require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
+require_once get_template_directory() . '/inc/tgm/class-tgm-plugin-activation.php';
 
 add_action('tgmpa_register', 'minimalist_blogger_x_theme_register_required_plugins');
 
@@ -350,7 +350,7 @@ function minimalist_blogger_x_theme_register_required_plugins()
      */
     $plugins = array(
         array(
-            'name'      => 'Superb Addons - WordPress Editor And Elementor Blocks, Sections & Patterns',
+            'name'      => 'Superb Addons',
             'slug'      => 'superb-blocks',
             'required'           => false,
         ),
@@ -363,7 +363,7 @@ function minimalist_blogger_x_theme_register_required_plugins()
         'has_notices'  => true,                    // Show admin notices or not.
         'dismissable'  => true,                    // If false, a user cannot dismiss the nag message.
         'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
-        'is_automatic' => false,                   // Automatically activate plugins after installation or not.
+        'is_automatic' => true,                   // Automatically activate plugins after installation or not.
         'message'      => '',                      // Message to output right before the plugins table.
     );
 
@@ -406,612 +406,55 @@ function minimalist_blogger_x_theme_sanitize_checkbox($checked)
  */
 require_once(trailingslashit(get_template_directory()) . 'justinadlock-customizer-button/class-customize.php');
 
-// Theme page start
 
-add_action('admin_menu', 'minimalist_blogger_x_themepage');
-function minimalist_blogger_x_themepage()
-{
-    $option = get_option('minimalist_blogger_x_themepage_seen');
-    $awaiting = !$option ? ' <span class="awaiting-mod">1</span>' : '';
-    $theme_info = add_theme_page(__('Theme Settings', 'minimalist-blogger-x'), __('Theme Settings', 'minimalist-blogger-x').$awaiting, 'edit_theme_options', 'minimalist-blogger-x-info.php', 'minimalist_blogger_x_info_page', 1);
-}
-function minimalist_blogger_x_info_page()
-{
-    $user = wp_get_current_user();
-    $theme = wp_get_theme();
-    $parent_name = is_child_theme() ? wp_get_theme($theme->Template) : '';
-    $theme_name = is_child_theme() ? $theme." ".__("and", "minimalist-blogger-x")." ".$parent_name : $theme;
-    $demo_text = is_child_theme() ? sprintf(__("Need inspiration? Take a moment to view our theme demo for the %1\$s parent theme %2\$s!", "minimalist-blogger-x"), $theme, $parent_name) : __("Need inspiration? Take a moment to view our theme demo!", "minimalist-blogger-x");
-    $premium_text = is_child_theme() ? sprintf(__("Unlock all features by upgrading to the premium edition of %1\$s and its parent theme %1\$s.", "minimalist-blogger-x"), $theme, $parent_name) : sprintf(__("Unlock all features by upgrading to the premium edition of %s.", "minimalist-blogger-x"), $theme);
-    $option_name = 'minimalist_blogger_x_themepage_seen';
-    $option = get_option($option_name, null);
-    if (is_null($option)) {
-        add_option($option_name, true);
-    } elseif (!$option) {
-        update_option($option_name, true);
-    } ?>
-    <div class="wrap">
 
-        <div class="spt-theme-settings-wrapper">
-            <div class="spt-theme-settings-wrapper-main-content">
-              <div class="spt-theme-settings-tabs">
 
-                 <div class="spt-theme-settings-tab">
-                     <input type="radio" id="tab-1" name="tab-group-1">
 
 
-
-                     <label class="spt-theme-settings-label" for="tab-1"><?php esc_html_e("Get started with", "minimalist-blogger-x"); ?> <?php echo esc_html($theme_name); ?></label>
-
-                     <div class="spt-theme-settings-content">
-
-                        <div class="spt-theme-settings-content-getting-started-wrapper">
-                            <div class="spt-theme-settings-content-item">
-                                <div class="spt-theme-settings-content-item-header">
-                                    <?php esc_html_e("Add Menus", "minimalist-blogger-x"); ?>
-                                </div>
-                                <div class="spt-theme-settings-content-item-content">
-                                   <a href="<?php echo esc_url(admin_url('nav-menus.php'))  ?>"><?php esc_html_e("Go to Menus", "minimalist-blogger-x"); ?></a>
-                               </div>
-                           </div>
-
-                           <div class="spt-theme-settings-content-item">
-                            <div class="spt-theme-settings-content-item-header">
-                               <?php esc_html_e("Add Widgets", "minimalist-blogger-x"); ?>
-                           </div>
-                           <div class="spt-theme-settings-content-item-content">
-                            <a href="<?php echo esc_url(admin_url('widgets.php'))  ?>"><?php esc_html_e("Go to Widgets", "minimalist-blogger-x"); ?></a>
-                        </div>
-                    </div>
-
-                    <div class="spt-theme-settings-content-item">
-                        <div class="spt-theme-settings-content-item-header">
-                            <?php esc_html_e("Create A Header", "minimalist-blogger-x"); ?>
-                        </div>
-                        <div class="spt-theme-settings-content-item-content">
-                            <a href="<?php echo esc_url(admin_url('customize.php')) ?>"><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></a>
-                        </div>
-                    </div>
-
-                    <div class="spt-theme-settings-content-item">
-                        <div class="spt-theme-settings-content-item-header">
-                           <?php esc_html_e("Change Site Title", "minimalist-blogger-x"); ?>
-                       </div>
-                       <div class="spt-theme-settings-content-item-content">
-                        <a href="<?php echo esc_url(admin_url('customize.php')) ?>"><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></a>
-                    </div>
-                </div>
-
-                <div class="spt-theme-settings-content-item">
-                    <div class="spt-theme-settings-content-item-header">
-                       <?php esc_html_e("Upload Logo", "minimalist-blogger-x"); ?>
-                   </div>
-                   <div class="spt-theme-settings-content-item-content">
-                    <a href="<?php echo esc_url(admin_url('customize.php')) ?>"><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></a>
-                </div>
-            </div>
-
-            <div class="spt-theme-settings-content-item">
-                <div class="spt-theme-settings-content-item-header">
-                   <?php esc_html_e("Set Up Navigation", "minimalist-blogger-x"); ?>
-               </div>
-               <div class="spt-theme-settings-content-item-content">
-                <a href="<?php echo esc_url(admin_url('customize.php')) ?>"><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></a>
-            </div>
-        </div>
-
-
-
-
-<div class="spt-theme-settings-content-item">
-    <div class="spt-theme-settings-content-item-header">
-       <?php esc_html_e("Customize Logo Height", "minimalist-blogger-x"); ?>
-   </div>
-   <div class="spt-theme-settings-content-item-content">
-    <a href="<?php echo esc_url(admin_url('customize.php')) ?>"><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></a>
-</div>
-</div>
-<div class="spt-theme-settings-content-item">
-    <div class="spt-theme-settings-content-item-header">
-       <?php esc_html_e("Hide Title And/Or Tagline)", "minimalist-blogger-x"); ?>
-   </div>
-   <div class="spt-theme-settings-content-item-content">
-    <a href="<?php echo esc_url(admin_url('customize.php')) ?>"><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></a>
-</div>
-</div>
-
-<div class="spt-theme-settings-content-item">
-    <div class="spt-theme-settings-content-item-header">
-       <?php esc_html_e("Add Button To Navigation", "minimalist-blogger-x"); ?>
-   </div>
-   <div class="spt-theme-settings-content-item-content">
-    <a href="<?php echo esc_url(admin_url('customize.php')) ?>"><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></a>
-</div>
-</div>
-
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Customize All Fonts", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Customize All Colors", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Import Demo Content", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Demo Import", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Unlock Full SEO Optimization", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Customize Blog Layout And Design", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Customize Navigation Layout and Design", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Customize Post / Page Design", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Customize Footer Design", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Show Full Posts on Blog.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Custom Copyright Text In Footer.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Show 'Continue Reading' Button on blog.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Show Go To Top Button.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Hide/show Related Posts On Posts And Pages.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Activate Image Optimization.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Optimized Mobile Layout", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Hide Author Name From Byline.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Hide/show Next/previous Buttons On Posts.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Hide/show Categories And Tags On Posts And Pages.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Hide/show Shopping Cart in Navigation.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Only Show Header On Front Page.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Add A About The Author Section.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Hide/Show Sidebar on WooCommerce Pages.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Hide/Show Sidebar on Blog Feed, Search Page and Archive Pages.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Hide/Show Header Button on Mobile.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Custom border radius on elements & buttons.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Only Display Header Widgets on Front Page.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Choose Between Multiple Navigation Layouts.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Choose Between Multiple Blog Layouts.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Show Recent Posts on 404 Page.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Show Recent Posts on 404 Page.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Add Custom Button To Header.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Hide/Show Header Tagline on Mobile.", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Unlock Feature Requests", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Feature Requests", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Access All Child Themes", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("View Child Themes", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Choose Featured Image Mode", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Add Recent Posts Widget", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Widgets", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Remove 'Tag' from tag page title", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Remove 'Author' from author page title", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-<a target="_blank" href="https://superbthemes.com/minimalist-blogger-x/" class="spt-theme-settings-content-item spt-theme-settings-content-item-unavailable">
-    <div class="spt-theme-settings-content-item-header">
-        <span><?php esc_html_e("Remove 'Category' from author page title", "minimalist-blogger-x"); ?></span> <span><?php esc_html_e("Premium", "minimalist-blogger-x"); ?></span>
-    </div>
-    <div class="spt-theme-settings-content-item-content">
-        <span><?php esc_html_e("Go to Customizer", "minimalist-blogger-x"); ?></span>
-    </div>
-</a>
-
-
-
-</div>
-</div> 
-</div>
-
-
-</div>      
-</div>
-
-<div class="spt-theme-settings-wrapper-sidebar">
-
-    <div class="spt-theme-settings-wrapper-sidebar-item">
-        <div class="spt-theme-settings-wrapper-sidebar-item-header"><?php esc_html_e("Additional Resources", "minimalist-blogger-x"); ?></div>
-        <div class="spt-theme-settings-wrapper-sidebar-item-content">
-            <ul>
-                <li>
-                    <a target="_blank" href="https://wordpress.org/support/forums/"><span class="dashicons dashicons-wordpress"></span><?php esc_html_e("WordPress.org Support Forum", "minimalist-blogger-x"); ?></a>
-                </li>
-                <li>
-                    <a target="_blank" href="https://www.facebook.com/superbthemescom/"><span class="dashicons dashicons-facebook-alt"></span><?php esc_html_e("Find us on Facebook", "minimalist-blogger-x"); ?></a>
-                </li>
-                <li>
-                    <a target="_blank" href="https://twitter.com/superbthemescom"><span class="dashicons dashicons-twitter"></span><?php esc_html_e("Find us on Twitter", "minimalist-blogger-x"); ?></a>
-                </li>
-                <li>
-                    <a target="_blank" href="https://www.instagram.com/superbthemes/"><span class="dashicons dashicons-instagram"></span><?php esc_html_e("Find us on Instagram", "minimalist-blogger-x"); ?></a>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-
-
-    <div class="spt-theme-settings-wrapper-sidebar-item">
-        <div class="spt-theme-settings-wrapper-sidebar-item-header"><?php esc_html_e("View Demo", "minimalist-blogger-x"); ?></div>
-        <div class="spt-theme-settings-wrapper-sidebar-item-content">
-            <p><?php echo esc_html($demo_text); ?></p>
-            <a href="https://superbthemes.com/demo/minimalist-blogger-x/" target="_blank" class="button button-primary"><?php esc_html_e("View Demo", "minimalist-blogger-x"); ?></a>
-        </div>
-    </div>
-
-    <div class="spt-theme-settings-wrapper-sidebar-item">
-        <div class="spt-theme-settings-wrapper-sidebar-item-header"><?php esc_html_e("Upgrade to Premium", "minimalist-blogger-x"); ?></div>
-        <div class="spt-theme-settings-wrapper-sidebar-item-content">
-            <p><?php echo esc_html($premium_text); ?></p>
-            <a href="https://superbthemes.com/minimalist-blogger-x/" target="_blank" class="button button-primary"><?php esc_html_e("View Premium Version", "minimalist-blogger-x"); ?></a>
-        </div>
-    </div>
-
-    <div class="spt-theme-settings-wrapper-sidebar-item">
-        <div class="spt-theme-settings-wrapper-sidebar-item-header"><?php esc_html_e("Helpdesk", "minimalist-blogger-x"); ?></div>
-        <div class="spt-theme-settings-wrapper-sidebar-item-content">
-            <p><?php esc_html_e("If you have issues with", "minimalist-blogger-x"); ?> <?php echo esc_html($theme); ?> <?php esc_html_e("then send us an email through our website!", "minimalist-blogger-x"); ?></p>
-            <a href="https://superbthemes.com/customer-support/" target="_blank" class="button"><?php esc_html_e("Contact Support", "minimalist-blogger-x"); ?></a>
-        </div>
-    </div>
-
-    <div class="spt-theme-settings-wrapper-sidebar-item">
-        <div class="spt-theme-settings-wrapper-sidebar-item-header"><?php esc_html_e("Review the Theme", "minimalist-blogger-x"); ?></div>
-        <div class="spt-theme-settings-wrapper-sidebar-item-content">
-            <p><?php esc_html_e("Do you enjoy using", "minimalist-blogger-x"); ?> <?php echo esc_html($theme); ?><?php esc_html_e("? Support us by reviewing us on WordPress.org!", "minimalist-blogger-x"); ?></p>
-            <a href="https://wordpress.org/support/theme/<?php echo esc_attr(get_stylesheet()); ?>/reviews/#new-post" target="_blank" class="button"><?php esc_html_e("Leave a Review", "minimalist-blogger-x"); ?></a>
-        </div>
-    </div>
-
-
-
-</div>
-
-</div>
-</div>
-
-
-<?php
-}
-
-
-
-function minimalist_blogger_x_comparepage_css($hook)
-{
-    if ('appearance_page_minimalist-blogger-x-info' != $hook) {
-        return;
-    }
-    wp_enqueue_style('minimalist-blogger-x-custom-style', get_template_directory_uri() . '/css/compare.css');
-}
-add_action('admin_enqueue_scripts', 'minimalist_blogger_x_comparepage_css');
-
-// Theme page end
-
-
-add_action('admin_init', 'minimalist_blogger_x_spbThemesNotification', 8);
-
-function minimalist_blogger_x_spbThemesNotification(){
-  $notifications = include('inc/admin_notification/Autoload.php');
-  $notifications->Add("minimalist_blogger_x_notification", esc_html__("Unlock All Features with Minimalist Blogger X Premium – Limited Time Offer", "minimalist-blogger-x"), esc_html__("Take advantage of the up to", "minimalist-blogger-x").
-" <span style='font-weight:bold;'>40% ".esc_html__("discount", "minimalist-blogger-x")."</span>".
-esc_html__(" and unlock all features with Minimalist Blogger X Premium. ", "minimalist-blogger-x")."<br/>".esc_html__("The discount is only available for a limited time.", "minimalist-blogger-x").
-"<br/><br/><div>
-<a style='margin-bottom:15px;' class='button button-large button-secondary' target='_blank' href='https://superbthemes.com/minimalist-blogger-x/'>".esc_html__("Read More", "minimalist-blogger-x")."</a> <a style='margin-bottom:15px;' class='button button-large button-primary' target='_blank' href='https://superbthemes.com/minimalist-blogger-x/'>".esc_html__("Upgrade Now", "minimalist-blogger-x")."</a></div>", "info");
-
-
-
-  $options_notification_start = array("delay"=> "-1 seconds", "wpautop" => false);
-  $notifications->Add("minimalist_blogger_x_notification_start", esc_html__("Let's get you started with Minimalist Blogger X!", "minimalist-blogger-x"), '<span class="st-notification-wrapper">
-<span class="st-notification-column-wrapper">
-<span class="st-notification-column">
-<img src="'. esc_url( get_template_directory_uri() . '/inc/admin_notification/src/preview.png' ).'" width="150" height="177" />
-</span>
-
-<span class="st-notification-column">
-<h2>'. esc_html__( 'Why Minimalist Blogger X', 'minimalist-blogger-x' ) .'</h2>
-<ul class="st-notification-column-list">
-<li>'. esc_html__( 'Easy to Use & Customize', 'minimalist-blogger-x' ) .'</li>
-<li>'. esc_html__( 'Search Engine Optimized', 'minimalist-blogger-x' ) .'</li>
-<li>'. esc_html__( 'Lightweight and Fast', 'minimalist-blogger-x' ) .'</li>
-<li>'. esc_html__( 'Top-notch Customer Support', 'minimalist-blogger-x' ) .'</li>
-</ul>
-<a href="https://superbthemes.com/demo/minimalist-blogger-x/" target="_blank" class="button">'. esc_html__( 'View Minimalist Blogger X Demo', 'minimalist-blogger-x' ) .' <span aria-hidden="true" class="dashicons dashicons-external"></span></a>
-</span>
-<span class="st-notification-column">
-<h2>'. esc_html__( 'Customize', 'minimalist-blogger-x' ) .'</h2>
-<ul>
-<li><a href="'. esc_url( admin_url( 'customize.php' ) ) .'" class="button button-primary">'. esc_html__( 'Customize The Design', 'minimalist-blogger-x' ) .'</a></li>
-<li><a href="'. esc_url( admin_url( 'widgets.php' ) ) .'" class="button button-primary">'. esc_html__( 'Add/Edit Widgets', 'minimalist-blogger-x' ) .'</a></li>
-<li><a href="https://superbthemes.com/customer-support/" target="_blank" class="button">'. esc_html__( 'Contact Support', 'minimalist-blogger-x' ) .' <span aria-hidden="true" class="dashicons dashicons-external"></span></a> </li>
-</ul>
-</span>
-</span>
-<span class="st-notification-footer">
-'. esc_html__( 'Minimalist Blogger X is created by SuperbThemes. We have 100.000+ users and are rated', 'minimalist-blogger-x' ) .' <strong>'. esc_html__( 'Excellent', 'minimalist-blogger-x' ) .'</strong> '. esc_html__( 'on Trustpilot', 'minimalist-blogger-x' ) .' <img src="'. esc_url( get_template_directory_uri() . '/inc/admin_notification/src/stars.svg' ).'" width="87" height="16" />
-</span>
-</span>
-<style>.st-notification-column-wrapper{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;border-top:1px solid #eee;padding-top:20px;margin-top:3px}.st-notification-column-wrapper h2{margin:0}.st-notification-footer img{margin-bottom:-3px;margin-left:10px}.st-notification-column-wrapper .button{min-width:180px;text-align:center;margin-top:10px}.st-notification-column{margin-right:10px;padding:0 10px;max-width:250px;width:100%}.st-notification-column img{border:1px solid #eee}.st-notification-footer{display:inline-block;width:100%;padding:15px 0;border-top:1px solid #eee;margin-top:10px}.st-notification-column:first-of-type{padding-left:0;max-width:160px}.st-notification-column-list li{list-style-type:circle;margin-left:15px;font-size:14px}@media only screen and (max-width:1000px){.st-notification-column{max-width:33%}}@media only screen and (max-width:800px){.st-notification-column{max-width:50%}.st-notification-column:first-of-type{display:none}}@media only screen and (max-width:600px){.st-notification-column-wrapper{display:block}.st-notification-column{width:100%;max-width:100%;display:inline-block;padding:0;margin:0}span.st-notification-column:last-of-type{margin-top:30px}}</style>', "info", $options_notification_start);
-  $notifications->Boot();
-}
+// Initialize information content
+require_once trailingslashit(get_template_directory()) . 'inc/vendor/autoload.php';
+
+use SuperbThemesThemeInformationContent\ThemeEntryPoint;
+
+ThemeEntryPoint::init([
+    'type' => 'classic', // block / classic
+    'theme_url' => 'https://superbthemes.com/minimalist-blogger-x/',
+    'demo_url' => 'https://superbthemes.com/demo/minimalist-blogger-x/',
+    'features' => array(
+array('title'=>'Customize All Fonts'),
+array('title'=>'Customize All Colors'),
+array('title'=>'Customize Blog Layout And Design'),
+array('title'=>'Customize Navigation Layout and Design'),
+array('title'=>'Customize Post / Page Design'),
+array('title'=>'Customize Footer Design'),
+array('title'=>'Show Full Posts on Blog.'),
+array('title'=>'Custom Copyright Text In Footer.'),
+array('title'=>'Show "Continue Reading" Button on blog.'),
+array('title'=>'Show Go To Top Button.'),
+array('title'=>'Hide/show Related Posts On Posts And Pages.'),
+array('title'=>'Activate Image Optimization.'),
+array('title'=>'Optimized Mobile Layout'),
+array('title'=>'Hide Author Name From Byline.'),
+array('title'=>'Hide/show Next/previous Buttons On Posts.'),
+array('title'=>'Hide/show Categories And Tags On Posts And Pages.'),
+array('title'=>'Hide/show Shopping Cart in Navigation.'),
+array('title'=>'Only Show Header On Front Page.'),
+array('title'=>'Add A About The Author Section.'),
+array('title'=>'Hide/Show Sidebar on WooCommerce Pages.'),
+array('title'=>'Hide/Show Sidebar on Blog Feed, Search Page and Archive Pages.'),
+array('title'=>'Hide/Show Header Button on Mobile.'),
+array('title'=>'Custom border radius on elements & buttons.'),
+array('title'=>'Only Display Header Widgets on Front Page.'),
+array('title'=>'Choose Between Multiple Navigation Layouts.'),
+array('title'=>'Choose Between Multiple Blog Layouts.'),
+array('title'=>'Show Recent Posts on 404 Page.'),
+array('title'=>'Show Recent Posts on 404 Page.'),
+array('title'=>'Add Custom Button To Header.'),
+array('title'=>'Hide/Show Header Tagline on Mobile.'),
+array('title'=>'Choose Featured Image Mode'),
+array('title'=>'Add Recent Posts Widget'),
+array('title'=>'Remove "Tag" from tag page title'),
+array('title'=>'Remove "Author" from author page title'),
+array('title'=>'Remove "Category" from author page title')
+    )
+]);
