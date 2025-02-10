@@ -324,7 +324,7 @@ add_action('wp_print_footer_scripts', 'minimalist_blogger_x_theme_skip_link_focu
 
 
 
-require_once get_template_directory() . '/lib/class-tgm-plugin-activation.php';
+require_once get_template_directory() . '/inc/tgm/class-tgm-plugin-activation.php';
 
 /**
  * @see http://tgmpluginactivation.com/configuration/ for detailed documentation.
